@@ -1,0 +1,49 @@
+﻿@model IQueryable<UrlRecord>
+
+@{ 
+    ViewBag.Title = "Admin";
+}
+
+<div class="container body-content">
+    <div class="col-lg-12">
+        <div class="page-header panel panel-primary">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Panel heading</div>
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Url</th>
+                        <th>Request</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row" style="color:@(item.IsEnable ? "green" : "red")">@item.Short</th>
+                            <td>@item.UrlData</td>
+                            <td>@item.Counter</td>
+                            <td><a href="@Url.Action("Edit","Admin",new { Id = item.Short })" class="btn btn-default btn-xs">Edit</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <nav>
+            <ul class="pagination">
+                @if (ViewBag.PageCount == 0)
+                {
+                    <li class="@(ViewBag.Page == 1 ? "disabled" : "")"><a href="@(ViewBag.Page == 1 ? "#" : Url.Action("Index","Admin",new { Page = ViewBag.Page - 1 }))" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                    @for (int i = (ViewBag.Page / 5 > 0 ? 5 * (ViewBag.Page / 5) : 1); i <= (5 * (ViewBag.Page / 5 + 1) > ViewBag.PageCount ? ViewBag.PageCount : (5 * (ViewBag.Page / 5 + 1))); i++)
+                    {
+                        <li class="@(i == ViewBag.Page ? "active" : "")"><a href="@Url.Action("Index","Admin",new { Page = i })">@i </a></li>
+                    }
+                    <li class="@(ViewBag.Page == ViewBag.PageCount ? "disabled" : "")"><a href="@(ViewBag.Page == ViewBag.PageCount ? "#" : Url.Action("Index","Admin",new { Page = ViewBag.Page + 1 }))" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
