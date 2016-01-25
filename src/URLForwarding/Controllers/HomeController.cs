@@ -19,6 +19,10 @@ namespace URLForwarding.Controllers
             try
             {
                 var UrlRecord = entity.Urls.Single(x => x.Short == go);
+                if (!UrlRecord.IsEnable)
+                {
+                    return Content("");
+                }
                 UrlRecord.Counter++;
                 entity.SaveChanges();
                 return new RedirectResult(UrlRecord.UrlData);
