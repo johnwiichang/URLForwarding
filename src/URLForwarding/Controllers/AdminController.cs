@@ -28,8 +28,7 @@ namespace URLForwarding.Controllers
         public IActionResult Index(int? p)
         {
             var pnum = p ?? 1;
-            var Urls = entity.Urls.OrderByDescending(x => x.CreateTime).Skip(10 * (pnum - 1)).Take(10);
-            ViewBag.PageCount = entity.Urls.Count();
+            var Urls = entity.Urls.OrderByDescending(x => x.CreateTime).Skip(15 * (pnum - 1)).Take(15);
             var PageCount = entity.Urls.Count() / 15 + (entity.Urls.Count() % 15 == 0 ? 0 : 1);
             pnum = pnum > PageCount ? PageCount : (pnum < 1 ? 1 : pnum);
             ViewBag.Page = pnum;
